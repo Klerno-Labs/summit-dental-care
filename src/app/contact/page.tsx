@@ -1,118 +1,196 @@
-import { Metadata } from "next";
-import ContactForm from "@/components/contact-form";
-import { siteConfig } from "@/config/site";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Get in touch with Summit Dental Care. Book an appointment or ask us a question.",
-};
+import { useState } from "react";
+import { MapPin, Phone, Mail, Clock, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", date: "", message: "", _gotcha: "" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", phone: "", date: "", message: "", _gotcha: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
-    <div className="pt-20">
-      {/* Header */}
-      <section className="bg-surface py-16">
+    <>
+      {/* Hero */}
+      <section className="py-20 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="font-heading font-bold text-4xl md:text-5xl text-text mb-6">Get in Touch</h1>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
-            Ready to book? Have a question? We are here to help.
-          </p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
+          <p className="text-lg text-gray-600">We are here to help. Reach out to schedule an appointment or ask a question.</p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <section className="py-24 bg-[#f8f9fa]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16">
             
-            {/* Contact Info */}
-            <div className="space-y-10">
-              <div>
-                <h2 className="font-heading font-bold text-2xl text-text mb-6">Contact Information</h2>
-                <p className="text-muted mb-8">
-                  Fill out the form and our team will get back to you within 24 hours. For emergencies, please call us directly.
-                </p>
-                
-                <ul className="space-y-6">
-                  <li className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 text-primary flex items-center justify-center shrink-0">
-                      <MapPin size={20} />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-text">Address</h3>
-                      <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-primary transition-colors">
-                        {siteConfig.contact.address}
-                      </a>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 text-primary flex items-center justify-center shrink-0">
-                      <Phone size={20} />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-text">Phone</h3>
-                      <a href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`} className="text-muted hover:text-primary transition-colors">
-                        {siteConfig.contact.phone}
-                      </a>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 text-primary flex items-center justify-center shrink-0">
-                      <Mail size={20} />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-text">Email</h3>
-                      <a href={`mailto:${siteConfig.contact.email}`} className="text-muted hover:text-primary transition-colors">
-                        {siteConfig.contact.email}
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Map Embed Placeholder */}
-              <div className="w-full h-64 bg-gray-200 rounded-xl overflow-hidden relative group">
-                {/* Simulating map */}
-                <div className="absolute inset-0 bg-surface flex items-center justify-center flex-col text-muted">
-                  <MapPin size={32} className="mb-2 text-gray-400" />
-                  <span className="text-sm font-medium">Interactive Map Loading...</span>
+            {/* Map & Info */}
+            <div className="space-y-8">
+              <div className="bg-white p-2 rounded-2xl shadow-sm h-[300px] md:h-[400px] flex items-center justify-center bg-gray-200">
+                {/* Simulated Map Embed */}
+                <div className="text-center text-gray-500">
+                  <MapPin className="w-12 h-12 mx-auto mb-2 text-[#0056b3]" />
+                  <p>Interactive Google Map</p>
+                  <p className="text-sm">(Placeholder for demo)</p>
                 </div>
               </div>
 
-              <div className="bg-surface p-6 rounded-xl">
-                <div className="flex items-center gap-3 mb-4">
-                   <Clock className="text-primary" />
-                   <h3 className="font-bold text-text">Office Hours</h3>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <Phone className="w-6 h-6 text-[#0056b3] mb-3" />
+                  <p className="text-sm text-gray-500 uppercase font-semibold">Phone</p>
+                  <a href="tel:+17135550123" className="text-xl font-bold text-gray-900 hover:text-[#0056b3]">(713) 555-0123</a>
                 </div>
-                <ul className="space-y-2 text-sm text-muted">
-                  <li className="flex justify-between border-b border-gray-200 pb-2">
-                    <span>Mon - Fri</span>
-                    <span className="font-medium text-text">8:00 AM - 6:00 PM</span>
-                  </li>
-                  <li className="flex justify-between border-b border-gray-200 pb-2">
-                    <span>Saturday</span>
-                    <span className="font-medium text-text">9:00 AM - 2:00 PM</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Sunday</span>
-                    <span className="font-medium text-text">Closed</span>
-                  </li>
-                </ul>
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <Mail className="w-6 h-6 text-[#0056b3] mb-3" />
+                  <p className="text-sm text-gray-500 uppercase font-semibold">Email</p>
+                  <a href="mailto:info@summitdental.com" className="text-xl font-bold text-gray-900 hover:text-[#0056b3] break-all">info@summitdental.com</a>
+                </div>
+                <div className="bg-white p-6 rounded-xl shadow-sm sm:col-span-2">
+                  <MapPin className="w-6 h-6 text-[#0056b3] mb-3" />
+                  <p className="text-sm text-gray-500 uppercase font-semibold">Address</p>
+                  <p className="text-lg font-bold text-gray-900">4521 Westheimer Rd, Suite 200</p>
+                  <p className="text-gray-600">Houston, TX 77027</p>
+                </div>
+              </div>
+
+              <div className="bg-[#0056b3] rounded-2xl p-8 text-white">
+                <Clock className="w-8 h-8 mb-4 text-[#00a8cc]" />
+                <h3 className="text-2xl font-bold mb-4">Office Hours</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>Mon - Fri</div><div>8am - 6pm</div>
+                  <div>Saturday</div><div>9am - 2pm</div>
+                  <div>Sunday</div><div>Closed</div>
+                </div>
               </div>
             </div>
 
             {/* Form */}
-            <div className="bg-surface p-8 lg:p-12 rounded-2xl border border-gray-100 h-fit">
-              <h2 className="font-heading font-bold text-2xl text-text mb-6">Send a Message</h2>
-              <ContactForm />
-            </div>
+            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-lg">
+              <h2 className="text-2xl font-bold mb-6">Request Appointment</h2>
+              
+              {status === "success" ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600">
+                    <CheckCircle2 className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
+                  <p className="text-gray-600">We will be in touch within 24 hours.</p>
+                  <button onClick={() => setStatus("idle")} className="mt-6 text-[#0056b3] font-bold hover:underline">Send another</button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="hidden">
+                    <label htmlFor="gotcha">Don't fill this out</label>
+                    <input id="gotcha" name="_gotcha" tabIndex={-1} autoComplete="off" value={formData._gotcha} onChange={handleChange} />
+                  </div>
 
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/20 outline-none transition-all"
+                      placeholder="John Doe"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/20 outline-none transition-all"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/20 outline-none transition-all"
+                        placeholder="(555) 123-4567"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="date" className="block text-sm font-semibold text-gray-700 mb-2">Preferred Date</label>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      value={formData.date}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/20 outline-none transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">How can we help? *</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/20 outline-none transition-all resize-none"
+                      placeholder="I am interested in..."
+                    ></textarea>
+                  </div>
+
+                  {status === "error" && (
+                    <p className="text-red-500 text-sm">Something went wrong. Please try again.</p>
+                  )}
+
+                  <Button type="submit" size="lg" className="w-full" isLoading={status === "loading"}>
+                    Send Request
+                  </Button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
