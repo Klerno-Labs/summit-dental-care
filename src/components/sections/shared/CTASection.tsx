@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/layout/Container";
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import { images } from "@/config/images";
 import { cn } from "@/lib/utils";
 
@@ -24,12 +23,10 @@ export function CTASection({
     return (
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image
+          <img
             src={images["cta"].src}
-            alt={images["cta"].alt}
-            fill
+            alt={images["cta"].alt} style={{ width: "100%", height: "100%", objectFit: "cover" }}
             className="object-cover"
-            priority
           />
           <div className="absolute inset-0 bg-primary/90" />
         </div>

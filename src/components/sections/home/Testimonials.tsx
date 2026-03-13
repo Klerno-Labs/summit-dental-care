@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { images } from "@/config/images";
 import { SectionHeader } from "../shared/SectionHeader";
@@ -32,7 +31,7 @@ export function Testimonials() {
   return (
     <section className="py-24 bg-surface relative overflow-hidden">
       <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <Image src={images["testimonial-bg"].src} alt="" fill className="object-cover" />
+        <img src={images["testimonial-bg"].src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} className="object-cover" />
       </div>
       <Container className="relative z-10">
         <SectionHeader
@@ -51,13 +50,13 @@ export function Testimonials() {
             >
               <div className="flex gap-1 mb-4 text-accent">
                 {[...Array(item.rating)].map((_, i) => (
-                  <Star key={i} size={16} fill="currentColor" />
+                  <Star key={i} size={16} style={{ width: "100%", height: "100%", objectFit: "cover" }}="currentColor" />
                 ))}
               </div>
               <p className="text-muted italic mb-6 leading-relaxed">"{item.text}"</p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gray-100 rounded-full overflow-hidden">
-                   <Image src={images["team-1"].src} alt={item.name} width={48} height={48} className="object-cover" />
+                   <img src={images["team-1"].src} alt={item.name} width={48} height={48} className="object-cover" />
                 </div>
                 <div>
                   <h4 className="font-bold text-text">{item.name}</h4>

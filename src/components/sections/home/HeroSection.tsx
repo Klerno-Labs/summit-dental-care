@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/layout/Container";
 import { InsuranceChecker } from "@/components/forms/InsuranceChecker";
@@ -48,12 +47,10 @@ export function HeroSection() {
           className="w-full lg:w-2/5 relative h-[500px] lg:h-[700px] flex items-center justify-center"
         >
           <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl">
-            <Image
+            <img
               src={images["hero"].src}
-              alt={images["hero"].alt}
-              fill
+              alt={images["hero"].alt} style={{ width: "100%", height: "100%", objectFit: "cover" }}
               className="object-cover"
-              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
           </div>

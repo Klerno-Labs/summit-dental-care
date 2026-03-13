@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { Link } from "next/link";
 import { images } from "@/config/images";
 import { cn } from "@/lib/utils";
@@ -21,10 +20,9 @@ export function DoctorCard({ name, role, bio, imageSlot = "team-1", className }:
       className={cn("bg-white p-6 rounded-large shadow-card border border-border text-center h-full", className)}
     >
       <div className="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-surface group-hover:border-primary transition-colors duration-300">
-        <Image 
+        <img 
           src={images[imageSlot].src} 
-          alt={name} 
-          fill 
+          alt={name} style={{ width: "100%", height: "100%", objectFit: "cover" }} 
           className="object-cover" 
         />
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
@@ -20,7 +19,7 @@ export function AboutPreview() {
             className="w-full lg:w-1/2 relative"
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <Image src={images["about"].src} alt={images["about"].alt} width={800} height={600} className="object-cover w-full h-auto" />
+              <img src={images["about"].src} alt={images["about"].alt} width={800} height={600} className="object-cover w-full h-auto" />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8 text-white">
                 <p className="text-xl font-heading font-bold">Serving Houston since 2015</p>
               </div>
