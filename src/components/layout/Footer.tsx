@@ -1,3 +1,5 @@
+"use client";
+
 import { Mail, MapPin, Phone, Facebook, Instagram, Twitter, Linkedin, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
