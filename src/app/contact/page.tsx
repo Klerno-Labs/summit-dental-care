@@ -1,90 +1,118 @@
-"use client";
-
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { Container } from "@/components/layout/Container";
-import { ContactForm } from "@/components/forms/ContactForm";
+import { Metadata } from "next";
+import ContactForm from "@/components/contact-form";
 import { siteConfig } from "@/config/site";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description: "Get in touch with Summit Dental Care. Book an appointment or ask us a question.",
+};
 
 export default function ContactPage() {
   return (
-    <main>
+    <div className="pt-20">
       {/* Header */}
-      <section className="bg-surface py-24 border-b border-border">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl font-heading font-bold text-text mb-6">Get in Touch</h1>
-            <p className="text-lg text-muted leading-relaxed">
-              Have a question or ready to schedule an appointment? We are here to help. Fill out the form, give us a call, or stop by our office in Houston.
-            </p>
-          </div>
-        </Container>
+      <section className="bg-surface py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h1 className="font-heading font-bold text-4xl md:text-5xl text-text mb-6">Get in Touch</h1>
+          <p className="text-lg text-muted max-w-2xl mx-auto">
+            Ready to book? Have a question? We are here to help.
+          </p>
+        </div>
       </section>
 
-      {/* Contact Layout */}
+      {/* Main Content */}
       <section className="py-24 bg-white">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Map & Info */}
-            <div className="space-y-8">
-              <div className="h-[300px] lg:h-[400px] bg-gray-200 rounded-2xl overflow-hidden shadow-md relative">
-                 {/* Static Map Placeholder using image for demo stability */}
-                 <img 
-                   src="https://maps.googleapis.com/maps/api/staticmap?center=4521+Westheimer+Rd,Houston,TX&zoom=15&size=800x600&maptype=roadmap&markers=color:blue%7Clabel:S%7C4521+Westheimer+Rd,Houston,TX&key=YOUR_API_KEY_HERE"
-                   alt="Map Location"
-                   className="w-full h-full object-cover"
-                   onError={(e) => { e.currentTarget.src = "https://placehold.co/800x600/cccccc/666666?text=Map+Placeholder"; }}
-                 />
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="bg-surface p-6 rounded-large border border-border">
-                  <MapPin className="text-primary w-6 h-6 mb-3" />
-                  <h3 className="font-bold text-text mb-2">Visit Us</h3>
-                  <p className="text-muted text-sm leading-relaxed">
-                    {siteConfig.contact.address}
-                  </p>
-                  <Link 
-                    href="https://maps.google.com/?q=4521+Westheimer+Rd,+Suite+200,+Houston,+TX+77027" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary text-sm font-bold hover:underline mt-2 inline-block"
-                  >
-                    Get Directions
-                  </Link>
-                </div>
-
-                <div className="bg-surface p-6 rounded-large border border-border">
-                  <Phone className="text-primary w-6 h-6 mb-3" />
-                  <h3 className="font-bold text-text mb-2">Call Us</h3>
-                  <a href={`tel:${siteConfig.contact.phone.replace(/\D/g, '')}`} className="text-xl font-bold text-text hover:text-primary transition-colors">
-                    {siteConfig.contact.phone}
-                  </a>
-                  <p className="text-muted text-sm mt-2">New Patients Welcome</p>
-                </div>
-              </div>
-
-              <div className="bg-surface p-6 rounded-large border border-border">
-                <Clock className="text-primary w-6 h-6 mb-4" />
-                <h3 className="font-bold text-text mb-4">Office Hours</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  {siteConfig.hours.map((slot, idx) => (
-                    <div key={idx} className="flex justify-between border-b border-gray-200 pb-2 last:border-0">
-                      <span className="text-muted">{slot.day}</span>
-                      <span className="font-semibold text-text">{slot.time}</span>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            
+            {/* Contact Info */}
+            <div className="space-y-10">
+              <div>
+                <h2 className="font-heading font-bold text-2xl text-text mb-6">Contact Information</h2>
+                <p className="text-muted mb-8">
+                  Fill out the form and our team will get back to you within 24 hours. For emergencies, please call us directly.
+                </p>
+                
+                <ul className="space-y-6">
+                  <li className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 text-primary flex items-center justify-center shrink-0">
+                      <MapPin size={20} />
                     </div>
-                  ))}
+                    <div>
+                      <h3 className="font-bold text-text">Address</h3>
+                      <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-primary transition-colors">
+                        {siteConfig.contact.address}
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 text-primary flex items-center justify-center shrink-0">
+                      <Phone size={20} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-text">Phone</h3>
+                      <a href={`tel:${siteConfig.contact.phone.replace(/\D/g, "")}`} className="text-muted hover:text-primary transition-colors">
+                        {siteConfig.contact.phone}
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 text-primary flex items-center justify-center shrink-0">
+                      <Mail size={20} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-text">Email</h3>
+                      <a href={`mailto:${siteConfig.contact.email}`} className="text-muted hover:text-primary transition-colors">
+                        {siteConfig.contact.email}
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Map Embed Placeholder */}
+              <div className="w-full h-64 bg-gray-200 rounded-xl overflow-hidden relative group">
+                {/* Simulating map */}
+                <div className="absolute inset-0 bg-surface flex items-center justify-center flex-col text-muted">
+                  <MapPin size={32} className="mb-2 text-gray-400" />
+                  <span className="text-sm font-medium">Interactive Map Loading...</span>
                 </div>
+              </div>
+
+              <div className="bg-surface p-6 rounded-xl">
+                <div className="flex items-center gap-3 mb-4">
+                   <Clock className="text-primary" />
+                   <h3 className="font-bold text-text">Office Hours</h3>
+                </div>
+                <ul className="space-y-2 text-sm text-muted">
+                  <li className="flex justify-between border-b border-gray-200 pb-2">
+                    <span>Mon - Fri</span>
+                    <span className="font-medium text-text">8:00 AM - 6:00 PM</span>
+                  </li>
+                  <li className="flex justify-between border-b border-gray-200 pb-2">
+                    <span>Saturday</span>
+                    <span className="font-medium text-text">9:00 AM - 2:00 PM</span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Sunday</span>
+                    <span className="font-medium text-text">Closed</span>
+                  </li>
+                </ul>
               </div>
             </div>
 
             {/* Form */}
-            <div className="lg:pt-12">
+            <div className="bg-surface p-8 lg:p-12 rounded-2xl border border-gray-100 h-fit">
+              <h2 className="font-heading font-bold text-2xl text-text mb-6">Send a Message</h2>
               <ContactForm />
             </div>
+
           </div>
-        </Container>
+        </div>
       </section>
-    </main>
+    </div>
   );
 }

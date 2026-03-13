@@ -1,124 +1,99 @@
-"use client";
-
 import { Metadata } from "next";
-import { Container } from "@/components/layout/Container";
-import { SectionHeader } from "@/components/sections/shared/SectionHeader";
-import { DoctorCard } from "@/components/sections/about/DoctorCard";
-import { CTASection } from "@/components/sections/shared/CTASection";
-import { Users, Award, Clock } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { images } from "@/config/images";
+import DoctorCard from "@/components/doctor-card";
+import { ShieldCheck, Heart, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-// Note: Metadata export is removed from "use client" components.
-// In a real app, this would be split into a parent page.tsx (Server) and AboutContent.tsx (Client).
-// For this single-file build, we prioritize functionality.
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Meet the team at Summit Dental Care and learn about our mission to provide exceptional dental services.",
+};
 
 export default function AboutPage() {
   return (
-    <main>
+    <div className="pt-20">
       {/* Hero */}
-      <section className="bg-surface py-24 border-b border-border">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl font-heading font-bold text-text mb-6">Our Mission</h1>
-            <p className="text-lg text-muted leading-relaxed">
-              At Summit Dental Care, we are dedicated to improving the oral health of our community through compassionate care, state-of-the-art technology, and a commitment to excellence.
-            </p>
-          </div>
-        </Container>
+      <section className="relative h-[50vh] flex items-center justify-center bg-gray-900">
+        <Image
+          src={images.about.src}
+          alt="Clinic Interior"
+          fill
+          className="object-cover opacity-40"
+          priority
+          sizes="100vw"
+        />
+        <div className="relative z-10 text-center px-4">
+          <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mb-4">Our Mission</h1>
+          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+            Providing exceptional dental care with integrity, compassion, and a commitment to our community.
+          </p>
+        </div>
       </section>
 
       {/* Story */}
       <section className="py-24 bg-white">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1">
-              <h2 className="text-3xl font-heading font-bold mb-6">A Tradition of Caring</h2>
-              <p className="text-muted mb-4 leading-relaxed">
-                Founded in 2015, Summit Dental Care was built on a simple premise: treat every patient like family. From the moment you walk through our doors on Westheimer Road, you will notice the difference.
-              </p>
-              <p className="text-muted mb-6 leading-relaxed">
-                Our team continually invests in the latest dental technologies, from digital impressions to 3D imaging, ensuring that your diagnosis is accurate and your treatment is efficient. We believe that education is key, and we take the time to explain every procedure thoroughly so you can make informed decisions about your dental health.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
-                <div className="bg-surface p-4 rounded-large text-center">
-                  <Award className="text-primary w-8 h-8 mx-auto mb-2" />
-                  <div className="font-bold text-2xl text-text">10+</div>
-                  <div className="text-xs text-muted uppercase tracking-wide">Years Experience</div>
-                </div>
-                <div className="bg-surface p-4 rounded-large text-center">
-                  <Users className="text-primary w-8 h-8 mx-auto mb-2" />
-                  <div className="font-bold text-2xl text-text">5k+</div>
-                  <div className="text-xs text-muted uppercase tracking-wide">Happy Patients</div>
-                </div>
-                <div className="bg-surface p-4 rounded-large text-center">
-                  <Clock className="text-primary w-8 h-8 mx-auto mb-2" />
-                  <div className="font-bold text-2xl text-text">15+</div>
-                  <div className="text-xs text-muted uppercase tracking-wide">Awards Won</div>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2 relative rounded-3xl overflow-hidden shadow-2xl h-[400px] lg:h-[500px]">
-               {/* Using about image again as placeholder for clinic interior */}
-              <img 
-                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&h=800&fit=crop" 
-                alt="Clinic Interior" 
-                className="object-cover w-full h-full"
-              />
-            </div>
+        <div className="max-w-4xl mx-auto px-4 text-center space-y-8">
+          <h2 className="font-heading font-bold text-3xl text-text">Why Summit Dental?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 text-left">
+             <div className="p-6 bg-surface rounded-xl">
+                <ShieldCheck className="text-primary mb-4" size={32} />
+                <h3 className="font-bold text-lg mb-2">Safety First</h3>
+                <p className="text-muted text-sm">We exceed CDC guidelines for sterilization and infection control to keep you safe.</p>
+             </div>
+             <div className="p-6 bg-surface rounded-xl">
+                <Heart className="text-primary mb-4" size={32} />
+                <h3 className="font-bold text-lg mb-2">Patient-Centric</h3>
+                <p className="text-muted text-sm">Your comfort is our priority. We offer amenities and sedation options for anxiety-free visits.</p>
+             </div>
+             <div className="p-6 bg-surface rounded-xl">
+                <Zap className="text-primary mb-4" size={32} />
+                <h3 className="font-bold text-lg mb-2">Modern Tech</h3>
+                <p className="text-muted text-sm">We utilize 3D imaging and laser dentistry for precise, efficient, and comfortable treatments.</p>
+             </div>
           </div>
-        </Container>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-24 bg-surface">
-        <Container>
-          <SectionHeader title="Why Choose Us" align="center" />
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            {[
-              { title: "Gentle Care", desc: "We prioritize your comfort, offering sedation options and a calm environment." },
-              { title: "Modern Tech", desc: "Digital X-rays, intraoral cameras, and laser dentistry for precise results." },
-              { title: "Transparent Pricing", desc: "No hidden fees. We work with most major insurance plans and offer financing." },
-            ].map((item, i) => (
-              <div key={i} className="bg-white p-8 rounded-large shadow-card">
-                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                <p className="text-muted">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
+        </div>
       </section>
 
       {/* Team */}
-      <section className="py-24 bg-white">
-        <Container>
-          <SectionHeader 
-            title="Meet Our Doctors" 
-            subtitle="Our skilled team of dentists brings decades of combined experience to Summit Dental Care." 
-          />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="py-24 bg-surface">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="font-heading font-bold text-3xl md:text-4xl text-text mb-4">Meet Our Doctors</h2>
+            <p className="text-muted max-w-2xl mx-auto">Our team of experienced professionals is dedicated to your oral health.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center">
             <DoctorCard 
-              name="Dr. Sarah Bennett" 
-              role="General Dentist" 
-              bio="Dr. Bennett specializes in cosmetic procedures and pediatric care, making smiles of all ages brighter."
+              name="Dr. Sarah Bennett"
+              role="Lead Dentist, DDS"
+              bio="Dr. Bennett has over 15 years of experience and specializes in cosmetic restoration."
+              imageKey="doctor-1"
             />
             <DoctorCard 
-              name="Dr. Michael Chen" 
-              role="Orthodontist" 
-              bio="Expert in Invisalign and traditional braces, Dr. Chen creates perfect alignment plans."
-              imageSlot="hero-alt" // Reusing hero alt for demo
+              name="Dr. Michael Ross"
+              role="Orthodontist, DMD"
+              bio="Passionate about creating perfect smiles, Dr. Ross is an Invisalign Diamond Provider."
+              imageKey="doctor-2"
             />
             <DoctorCard 
-              name="Dr. Emily Rodriguez" 
-              role="Endodontist" 
-              bio="Specializing in root canals and saving natural teeth with the latest microscopic technology."
-              imageSlot="gallery-1" // Reusing gallery for demo
+              name="Dr. Emily Chen"
+              role="Pediatric Dentist, DDS"
+              bio="Dr. Chen makes every child's visit fun and educational, building healthy habits early."
+              imageKey="doctor-1" 
             />
           </div>
-        </Container>
+        </div>
       </section>
-
-      <CTASection />
-    </main>
+      
+      {/* CTA */}
+      <section className="py-16 bg-primary text-white text-center">
+        <h3 className="text-2xl font-bold mb-6">Join Our Dental Family</h3>
+        <Button asChild variant="secondary" size="lg" className="rounded-full">
+          <Link href="/contact">Schedule a Visit</Link>
+        </Button>
+      </section>
+    </div>
   );
 }

@@ -10,17 +10,15 @@ const config: Config = {
     extend: {
       colors: {
         primary: "#0056b3", // Trustworthy professional blue
-        secondary: "#00a8cc", // Clinical teal/cyan
-        accent: "#ffb703", // Warm amber/yellow
-        background: "#ffffff",
-        surface: "#f8f9fa",
+        secondary: "#00a8cc", // Clinical teal
+        accent: "#ffb703", // Warm amber
+        surface: "#f8f9fa", // Light grey background
         text: "#212529",
         muted: "#6c757d",
-        border: "#dee2e6",
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "sans-serif"],
-        body: ["var(--font-body)", "sans-serif"],
+        heading: ["var(--font-montserrat)", "sans-serif"],
+        body: ["var(--font-opensans)", "sans-serif"],
       },
       boxShadow: {
         card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
@@ -33,8 +31,8 @@ const config: Config = {
         large: "16px",
         pill: "50px",
       },
-      maxWidth: {
-        "8xl": "96rem", // 1536px
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
     },
   },

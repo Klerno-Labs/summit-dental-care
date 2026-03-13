@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://summitdentalcare.com/sitemap.xml
+Sitemap: https://summitdental.example.com/sitemap.xml

@@ -1,29 +1,41 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
+    const { name, email, phone, service, message } = body;
+
     // Basic validation
-    if (!body.name || !body.email || !body.message) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!name || !email || !phone || !message) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
-    // Check honeypot
-    if (body._gotcha) {
-      // Silently succeed to fool bots
-      return NextResponse.json({ success: true }, { status: 200 });
-    }
+    // In a real production app, you would use Nodemailer, Resend, SendGrid, etc.
+    // Example console log for debugging:
+    console.log("Received Contact Form Submission:", {
+      name,
+      email,
+      phone,
+      service,
+      message,
+      timestamp: new Date().toISOString(),
+    });
 
-    // In a real app, you would send an email here using Nodemailer, Resend, SendGrid, etc.
-    // For this demo, we simulate a successful send after a short delay.
-    // await sendEmail(body);
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    console.log("Form submission received:", body);
-
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json(
+      { message: "Message sent successfully" },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Contact form error:", error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error("Contact API Error:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
