@@ -1,71 +1,70 @@
 "use client";
+
 import { useState } from "react";
-import { Search, CheckCircle } from "lucide-react";
+import { Search, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function InsuranceChecker() {
-  const [zip, setZip] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [zipCode, setZipCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleCheck = (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("loading");
+    if (zipCode.length < 5) return;
+    
+    setIsLoading(true);
     // Simulate API call
     setTimeout(() => {
-      setStatus("success");
-    }, 1000);
+      setIsLoading(false);
+      setIsSuccess(true);
+    }, 1500);
   };
 
   return (
-    <div className="bg-white p-6 rounded-large shadow-xl border border-border w-full">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="p-2 bg-secondary/10 rounded-full text-primary">
-          <Search size={18} />
-        </div>
-        <h3 className="font-bold text-text">Check Your Coverage</h3>
-      </div>
-
-      {status === "success" ? (
-        <div className="text-center py-4">
-          <CheckCircle className="mx-auto text-green-500 mb-2" size={32} />
-          <p className="text-sm text-green-700 font-semibold">
-            Great news! We likely accept your plan.
-          </p>
-          <button
-            onClick={() => setStatus("idle")}
-            className="text-xs text-primary underline mt-2"
+    <div className="bg-white p-6 rounded-large shadow-modal w-full max-w-sm border border-border">
+      <h3 className="font-heading font-bold text-lg mb-2 text-text">Check Your Insurance</h3>
+      <p className="text-sm text-muted mb-4">Enter your zip code to see if we accept your plan.</p>
+      
+      {isSuccess ? (
+        <div className="flex flex-col items-center justify-center py-4 text-center">
+          <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-3">
+            <CheckCircle2 size={24} />
+          </div>
+          <h4 className="font-semibold text-text mb-1">Good News!</h4>
+          <p className="text-sm text-muted">We likely accept plans in <span className="font-bold text-primary">{zipCode}</span>. Call us to verify specific benefits.</p>
+          <button 
+            onClick={() => {setIsSuccess(false); setZipCode("");}}
+            className="mt-4 text-sm text-primary font-semibold hover:underline"
           >
             Check another zip
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            type="text"
-            placeholder="Enter Zip Code"
-            value={zip}
-            onChange={(e) => setZip(e.target.value)}
-            pattern="[0-9]{5}"
-            maxLength={5}
-            className="w-full border border-border rounded-md px-4 py-2.5 text-sm focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
-            required
-          />
-          <button
+        <form onSubmit={handleCheck} className="space-y-3">
+          <div className="relative">
+            <input
+              type="text"
+              value={zipCode}
+              onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
+              placeholder="Zip Code"
+              className="w-full bg-surface border border-border rounded-small px-4 py-3 pl-10 text-text outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              maxLength={5}
+              required
+            />
+            <Search className="absolute left-3 top-3.5 text-muted w-4 h-4" />
+          </div>
+          <Button
             type="submit"
-            disabled={status === "loading"}
-            className="w-full bg-accent text-text font-bold py-2.5 rounded-md hover:bg-[#e6a502] transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+            variant="accent"
+            size="sm"
+            className="w-full"
+            disabled={isLoading}
           >
-            {status === "loading" ? (
-              <>Checking...</>
-            ) : (
-              <>Find Plans</>
-            )}
-          </button>
+            {isLoading ? "Checking..." : "Find Plans"}
+          </Button>
         </form>
       )}
-      
-      <p className="text-xs text-text-muted text-center mt-4">
-        Most major insurance providers accepted.
-      </p>
     </div>
   );
 }

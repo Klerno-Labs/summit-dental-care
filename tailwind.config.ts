@@ -9,32 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: "#0056b3",
-          foreground: "#ffffff",
-        },
-        secondary: {
-          DEFAULT: "#00a8cc",
-          foreground: "#ffffff",
-        },
-        accent: {
-          DEFAULT: "#ffb703",
-          foreground: "#212529",
-        },
+        primary: "#0056b3", // Trustworthy professional blue
+        secondary: "#00a8cc", // Clinical teal/cyan
+        accent: "#ffb703", // Warm amber/yellow
         background: "#ffffff",
         surface: "#f8f9fa",
-        text: {
-          DEFAULT: "#212529",
-          muted: "#6c757d",
-        },
+        text: "#212529",
+        muted: "#6c757d",
         border: "#dee2e6",
       },
       fontFamily: {
-        heading: ["var(--font-montserrat)", "sans-serif"],
-        body: ["var(--font-open-sans)", "sans-serif"],
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        heading: ["var(--font-heading)", "sans-serif"],
+        body: ["var(--font-body)", "sans-serif"],
       },
       boxShadow: {
         card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
@@ -45,9 +31,13 @@ const config: Config = {
         small: "4px",
         medium: "8px",
         large: "16px",
+        pill: "50px",
+      },
+      maxWidth: {
+        "8xl": "96rem", // 1536px
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [],
 };
 export default config;

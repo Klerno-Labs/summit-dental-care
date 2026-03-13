@@ -5,22 +5,20 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
 
-const montserrat = Montserrat({
+const heading = Montserrat({ 
   subsets: ["latin"],
-  variable: "--font-montserrat",
+  variable: "--font-heading",
   display: "swap",
-  weight: ["600", "700"],
 });
 
-const openSans = Open_Sans({
+const body = Open_Sans({ 
   subsets: ["latin"],
-  variable: "--font-open-sans",
+  variable: "--font-body",
   display: "swap",
-  weight: ["400", "600"],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://example.com"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
@@ -32,25 +30,12 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&h=630&auto=format&fit=crop",
-        width: 1200,
-        height: 630,
-        alt: siteConfig.name,
-      },
-    ],
+    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [
-      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&h=630&auto=format&fit=crop",
-    ],
-  },
-  icons: {
-    icon: "/favicon.ico",
   },
 };
 
@@ -60,10 +45,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${openSans.variable}`}>
-      <body className="font-body antialiased bg-background text-text">
+    <html lang="en">
+      <body className={`${heading.variable} ${body.variable} min-h-screen flex flex-col`}>
         <Navbar />
-        <main className="min-h-screen pt-20">{children}</main>
+        <main className="flex-grow pt-20">{children}</main>
         <Footer />
         <script
           type="application/ld+json"
@@ -72,7 +57,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Dentist",
               name: siteConfig.name,
-              image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&h=800&auto=format&fit=crop",
+              image: `${siteConfig.url}/logo.png`,
               "@id": siteConfig.url,
               url: siteConfig.url,
               telephone: siteConfig.contact.phone,
@@ -92,13 +77,7 @@ export default function RootLayout({
               openingHoursSpecification: [
                 {
                   "@type": "OpeningHoursSpecification",
-                  dayOfWeek: [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                  ],
+                  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
                   opens: "08:00",
                   closes: "18:00",
                 },
